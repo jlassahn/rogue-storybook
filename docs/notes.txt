@@ -1,0 +1,4 @@
+
+Use the javascript localStorage property to do saved games.
+
+

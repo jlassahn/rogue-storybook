@@ -7,7 +7,7 @@ const ctx = canvas.getContext("2d");
 const image = new Image(192, 192);
 image.onload = draw_view;
 
-image.src = "testimage.png";
+image.src = "./data/testimage.png";
 
 document.getElementById("game").style.visibility = "visible";
 document.getElementById("splash").style.visibility = "hidden";

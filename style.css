@@ -20,7 +20,7 @@ div
 	top: 0%;
 }
 
-/* This makes the largest 4/3 ratio box that fits into top */
+/* This makes the largest 3/2 ratio box that fits into top */
 .fixed-aspect
 {
 	position: absolute;
