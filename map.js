@@ -87,6 +87,9 @@ export class Map extends Place
 	constructor(game)
 	{
 		super(game);
+		this.grid_dx = 63;
+		this.grid_dy = 63;
+		this.grid = new Uint16Array(this.grid_dx*this.grid_dy);
 	}
 }
 
