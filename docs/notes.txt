@@ -1,4 +1,7 @@
 
 Use the javascript localStorage property to do saved games.
 
+Savoye LET is the cursive titlescreen font.
+
+Give credit for insiration and mechanics to Rogue Fable III by Justin Wang
 
