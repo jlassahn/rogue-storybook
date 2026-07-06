@@ -15,9 +15,16 @@ sheet has a 8x8 images.  A tile index is an integer of the form
 There's no particular limit to the number of sheets, we'll just keep adding
 PNG files as needed.  Images will be somewhat organized by theme for ease
 of doing graphic design, but the game engine doesn't particularly care which
-images are at which locations, it just works with index numbers.
+images are at which locations, it just works with index numbers.  Some tiles
+for things like wall segments will be in contiguous groups with specific
+orientations in a specific order, so that the map generation algorithms can
+make walls that flow well.
 
 Some useful calculated sizes:
 - Sprite Sheets are 384x512 pixels.
 - The ideal resolution for the game is 1080x720
+
+The main character is built from several layers of tiles to show an images with
+swappable equipment.  See tools/Character.xcf for examples of how the layers
+work.
 

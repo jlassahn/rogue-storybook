@@ -13,3 +13,13 @@
 	height: 100%;
 }
 
+#rogue_popup
+{
+	position: absolute;
+	width: 50%;
+	height: 50%;
+	left: 25%;
+	top: 25%;
+	background-color: #808080;
+}
+

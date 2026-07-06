@@ -24,10 +24,10 @@ function draw_view()
 		const dstx = x*48;
 		const dsty = y*48 - 16;
 
-		var srcx = 48;
+		var srcx = 48*1;
 		if (((y & 7) == 0) || ((x & 7) == 0))
-			srcx = 0;
-		const srcy = 0;
+			srcx = 48*0;
+		const srcy = 64*0;
 		/* can use this or image here */
 		ctx.drawImage(this, srcx, srcy, 48, 64, dstx, dsty, 48, 64);
 	}
