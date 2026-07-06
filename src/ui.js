@@ -32,6 +32,8 @@ export function setup()
 export function hide_splash()
 {
 	console.log("ui::hide_splash");
+	const splash = document.getElementById("rogue_splash");
+	splash.style.visibility = "hidden";
 }
 
 // the callback should have the signature
@@ -53,15 +55,20 @@ export function error_popup(err)
 {
 	console.log("ui::error_popup -- "+err);
 	const popup = document.getElementById("rogue_popup");
+
+	popup.replaceChildren();
+
+	const el = document.createElement("div");
+	el.textContent = "Errors:";
+	popup.appendChild(el);
+
+	for (var i=0; i<err.length; i++)
+	{
+		const el = document.createElement("div");
+		el.textContent = err[i];
+		popup.appendChild(el);
+	}
+
 	popup.style.visibility = "visible";
-	/*
-	const popup = document.createElement("div");
-	popup.innerHTML = "An Error Occurred";
-	popup.classList.add("rogue_popup");
-	// popup.style ...
-	
-	const parent = document.getElementById("rogue_top");
-	parent.appendChild(popup);
-	*/
 }
 
