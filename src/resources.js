@@ -5,8 +5,8 @@ export var data = {
 
 const tile_files = [
 	"../data/tile00.png",
-	//"../data/tile01.png",
-	//"../data/tile02.png",
+	// "../data/tile01.png",
+	// "../data/tile02.png",
 ];
 
 var errors = [];

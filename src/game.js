@@ -1,4 +1,6 @@
 
+import * as ui from "./ui.js"
+
 export function setup()
 {
 	console.log("game::setup starting");
@@ -14,5 +16,7 @@ export function setup()
 export function start()
 {
 	console.log("game::start starting");
+	const game = null;
+	ui.draw(game);
 }
 
