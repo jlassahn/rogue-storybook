@@ -21,7 +21,7 @@ function setup()
 function start()
 {
 	console.log("ui_test::start starting");
-	ui.hide_splash();
+	ui.final_setup();
 	run_test();
 }
 

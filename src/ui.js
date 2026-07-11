@@ -1,6 +1,77 @@
 
 import * as resources from "./resources.js"
 
+export function setup()
+{
+	console.log("ui::setup starting");
+	const root = document.getElementById("rogue_top");
+	setup_root(root);
+
+	return new Promise(
+		(resolve, reject) =>
+		{
+			resolve("ui::setup done");
+		}
+	);
+}
+
+export function final_setup()
+{
+	console.log("ui::final_setup");
+	hide_splash();
+}
+
+export function draw(gd)
+{
+	console.log("ui::draw");
+	if (gd.is_menu)
+	{
+		ui_elements.menu.style.visibility = "visible";
+		ui_elements.game.style.visibility = "hidden";
+		draw_menu(gd);
+	}
+	else
+	{
+		ui_elements.menu.style.visibility = "hidden";
+		ui_elements.game.style.visibility = "visible";
+		draw_game(gd);
+	}
+}
+
+export function play_sound(snd)
+{
+	console.log("ui::play_sound");
+}
+
+export function error_popup(err)
+{
+	console.log("ui::error_popup -- "+err);
+	const popup = ui_elements.popup;
+
+	popup.replaceChildren();
+
+	const el = document.createElement("div");
+	el.textContent = "Errors:";
+	popup.appendChild(el);
+
+	for (var i=0; i<err.length; i++)
+	{
+		const el = document.createElement("div");
+		el.textContent = err[i];
+		popup.appendChild(el);
+	}
+
+	popup.style.visibility = "visible";
+}
+
+// the callback should have the signature
+//  (command_id, param1, param2) => boolean
+// where returning true means call me again with a STEP command to do animation
+export function set_command_callback(fn)
+{
+	console.log("ui::set_command_callback");
+}
+
 const ui_elements = {
 	popup: null,
 	menu: null,
@@ -16,12 +87,17 @@ const ui_elements = {
 
 function make_el(kind, parent, width, height, left, top)
 {
+	const w = (width*100/720).toString() + "cqh";
+	const h = (height*100/720).toString() + "cqh";
+	const x = (left*100/720).toString() + "cqh";
+	const y = (top*100/720).toString() + "cqh";
+
 	const el = document.createElement(kind);
 	el.style.position = "absolute";
-	el.style.width = width;
-	el.style.height = height;
-	el.style.left = left;
-	el.style.top = top;
+	el.style.width = w;
+	el.style.height = h;
+	el.style.left = x;
+	el.style.top = y;
 	parent.appendChild(el);
 
 	return el;
@@ -34,16 +110,16 @@ function make_canvas(parent, width, height, left, top)
 	return el;
 }
 
-function make_icon_button(parent, width, height, left, top)
+function make_icon_button(parent, left, top)
 {
-	const el = make_el("canvas", parent, width, height, left, top);
+	const el = make_el("canvas", parent, 48, 48, left, top);
 	el.classList.add("rogue_ibutton");
 	return el;
 }
 
-function make_base(parent, width, height, left, top)
+function make_base(parent)
 {
-	const el = make_el("div", parent, width, height, left, top);
+	const el = make_el("div", parent, 1080, 720, 0, 0);
 	el.classList.add("rogue_base");
 	return el;
 }
@@ -62,86 +138,86 @@ function make_text(parent, width, height, left, top)
 	return el;
 }
 
-export function setup()
+function setup_root(root)
 {
-	console.log("ui::setup starting");
+	setup_menu(root);
+	setup_game(root);
+	setup_popup(root);
+}
 
-	const root = document.getElementById("rogue_top");
-	ui_elements.menu = make_base(root, "100%", "100%", "0%", "0%");
-	ui_elements.game = make_base(root, "100%", "100%", "0%", "0%");
-	ui_elements.popup = make_float(root, "50%", "50%", "25%", "25%");
-	ui_elements.view = make_canvas(ui_elements.game, "66.66667%", "100%", "0%", "0%");
-	ui_elements.map = make_canvas(ui_elements.game, "30%", "45%", "68%", "3%");
-	for (var i=0; i<7; i++)
-	{
-		const x = (66.85+i*4.75).toString() + "%";
-		const el = make_icon_button(ui_elements.game,
-			"4.44444%", "6.66666%", x, "75%");
-		ui_elements.usables.push(el);
-	}
-	for (var i=0; i<7; i++)
-	{
-		const x = (66.85+i*4.75).toString() + "%";
-		const el = make_icon_button(ui_elements.game,
-			"4.44444%", "6.66666%", x, "83%");
-		ui_elements.usables.push(el);
-	}
-	for (var i=0; i<7; i++)
-	{
-		const x = (66.85+i*4.75).toString() + "%";
-		const el = make_icon_button(ui_elements.game,
-			"4.44444%", "6.66666%", x, "91%");
-		ui_elements.usables.push(el);
-	}
-
-	ui_elements.inventory = make_float(ui_elements.game, "60%", "90%", "3%", "5%");
-	for (var j=0; j<6; j++)
-	for (var i=0; i<10; i++)
-	{
-		const xx = i;
-		const yy = j;
-		const y = (10+9*j).toString() + "%";
-		const x = (5+i*9).toString() + "%";
-		const el = make_icon_button(ui_elements.inventory,
-			"7.4074%", "7.4074%", x, y);
-		ui_elements.wearables.push(el);
-		el.addEventListener("click", x => handle_wearable_click(xx, yy, x));
-	}
+function setup_menu(root)
+{
+	ui_elements.menu = make_base(root);
+	ui_elements.menu.style.visibility = "hidden";
 
 	for (var i=0; i<7; i++)
 	{
-		const y = (30 + i*8).toString() + "%";
-		const txt_el = make_text(ui_elements.menu, "50%", "6.667%", "16%", y);
+		const y = (216 + i*56);
+		const txt_el = make_text(ui_elements.menu, 540, 48, 172, y);
 		txt_el.style.fontSize = "6cqh";
-		const img_el = make_icon_button(ui_elements.menu, "4.444%", "6.667%", "10%", y);
+		const img_el = make_icon_button(ui_elements.menu, 108, y);
 		ui_elements.menu_choices.push({
 			text: txt_el,
 			image: img_el
 		});
 	}
-	ui_elements.menu_view = make_canvas(ui_elements.menu, "13.333%", "20%", "76.667%", "30%");
+	ui_elements.menu_view = make_canvas(ui_elements.menu, 48*3, 48*3, 828, 216);
+}
 
-	ui_elements.popup.style.visibility = "hidden";
+function setup_game(root)
+{
+	ui_elements.game = make_base(root);
 	ui_elements.game.style.visibility = "hidden";
-	ui_elements.menu.style.visibility = "hidden";
+
+	ui_elements.view = make_canvas(ui_elements.game, 720, 720, 0, 0);
+	ui_elements.map = make_canvas(ui_elements.game, 324, 324, 734, 20);
+	for (var i=0; i<7; i++)
+	{
+		const x = (732+i*48);
+		const el = make_icon_button(ui_elements.game, x, 540+56*0);
+		ui_elements.usables.push(el);
+	}
+	for (var i=0; i<7; i++)
+	{
+		const x = (732+i*48);
+		const el = make_icon_button(ui_elements.game, x, 540+56*1);
+		ui_elements.usables.push(el);
+	}
+	for (var i=0; i<7; i++)
+	{
+		const x = (732+i*48);
+		const el = make_icon_button(ui_elements.game, x, 540+56*2);
+		ui_elements.usables.push(el);
+	}
+
+	ui_elements.inventory = make_float(ui_elements.game, 648, 648, 32, 36);
+	for (var j=0; j<6; j++)
+	for (var i=0; i<10; i++)
+	{
+		const xx = i;
+		const yy = j;
+		const y = (72+j*56);
+		const x = (44+i*56);
+		const el = make_icon_button(ui_elements.inventory, x, y);
+		ui_elements.wearables.push(el);
+		el.addEventListener("click", x => handle_wearable_click(xx, yy, x));
+	}
 
 	ui_elements.view.addEventListener("click", handle_view_click);
 	ui_elements.map.addEventListener("click", handle_map_click);
 
 	ui_elements.map.width = 63*10;
 	ui_elements.map.height = 63*10;
+}
 
-	return new Promise(
-		(resolve, reject) =>
-		{
-			resolve("ui::setup done");
-		}
-	);
+function setup_popup(root)
+{
+	ui_elements.popup = make_float(root, 540, 360, 270, 180);
+	ui_elements.popup.style.visibility = "hidden";
 }
 
 var splash_done = false;
-
-export function hide_splash()
+function hide_splash()
 {
 	console.log("ui::hide_splash");
 	if (splash_done)
@@ -157,30 +233,9 @@ export function hide_splash()
 	splash_done = true;
 }
 
-// the callback should have the signature
-//  (command_id, param1, param2) => boolean
-// where returning true means call me again with a STEP command to do animation
-export function set_command_callback(fn)
+
+function draw_game(gd)
 {
-	console.log("ui::set_command_callback");
-}
-
-export function draw(gd)
-{
-	console.log("ui::draw");
-
-	if (gd.is_menu)
-	{
-		ui_elements.menu.style.visibility = "visible";
-		ui_elements.game.style.visibility = "hidden";
-		draw_menu(gd);
-	}
-	else
-	{
-		ui_elements.menu.style.visibility = "hidden";
-		ui_elements.game.style.visibility = "visible";
-	}
-
 	// FIXME fake
 	const tile_img = resources.data.tiles[0];
 	for (var i=0; i<5; i++)
@@ -205,27 +260,6 @@ export function draw(gd)
 				ctx.fillRect(x*10, y*10, 10, 10);
 		}
 	}
-}
-
-export function error_popup(err)
-{
-	console.log("ui::error_popup -- "+err);
-	const popup = ui_elements.popup;
-
-	popup.replaceChildren();
-
-	const el = document.createElement("div");
-	el.textContent = "Errors:";
-	popup.appendChild(el);
-
-	for (var i=0; i<err.length; i++)
-	{
-		const el = document.createElement("div");
-		el.textContent = err[i];
-		popup.appendChild(el);
-	}
-
-	popup.style.visibility = "visible";
 }
 
 function handle_view_click(evt)
