@@ -1,4 +1,5 @@
 
+// FIXME inject ui as a parameter so we can make a mock version
 import * as ui from "./ui.js"
 
 export function setup()

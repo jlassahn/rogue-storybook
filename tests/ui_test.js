@@ -33,7 +33,30 @@ function handle_setup_error(err)
 
 const game_data =
 {
-	is_menu: true
+	is_menu: true,
+	menu_choices: [
+		{
+			text: "Menu Choice #1",
+		},
+		{
+			text: "Menu Choice #2",
+		},
+		{
+			text: "Menu Choice #3",
+		},
+		{
+			text: "Menu Choice #4",
+		},
+		{
+			text: "Menu Choice #5",
+		},
+		{
+			text: "Menu Choice #6",
+		},
+		{
+			text: "Menu Choice #7",
+		}
+	]
 };
 
 function run_test()

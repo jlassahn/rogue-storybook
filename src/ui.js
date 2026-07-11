@@ -4,6 +4,8 @@ import * as resources from "./resources.js"
 const ui_elements = {
 	popup: null,
 	menu: null,
+	menu_choices: [],
+	menu_view: null,
 	game: null,
 	view: null,
 	map: null,
@@ -43,6 +45,13 @@ function make_base(parent, width, height, left, top)
 function make_float(parent, width, height, left, top)
 {
 	return make_el("div", parent, width, height, left, top);
+}
+
+function make_text(parent, width, height, left, top)
+{
+	const el = make_el("div", parent, width, height, left, top);
+	el.classList.add("rogue_text");
+	return el;
 }
 
 export function setup()
@@ -90,6 +99,19 @@ export function setup()
 		ui_elements.wearables.push(el);
 		el.addEventListener("click", x => handle_wearable_click(xx, yy, x));
 	}
+
+	for (var i=0; i<7; i++)
+	{
+		const y = (30 + i*8).toString() + "%";
+		const txt_el = make_text(ui_elements.menu, "50%", "6.667%", "16%", y);
+		txt_el.style.fontSize = "6cqh";
+		const img_el = make_canvas(ui_elements.menu, "4.444%", "6.667%", "10%", y);
+		ui_elements.menu_choices.push({
+			text: txt_el,
+			image: img_el
+		});
+	}
+	ui_elements.menu_view = make_canvas(ui_elements.menu, "13.333%", "20%", "76.667%", "30%");
 
 	ui_elements.popup.style.visibility = "hidden";
 	ui_elements.game.style.visibility = "hidden";
@@ -143,6 +165,7 @@ export function draw(gd)
 	{
 		ui_elements.menu.style.visibility = "visible";
 		ui_elements.game.style.visibility = "hidden";
+		draw_menu(gd);
 	}
 	else
 	{
@@ -234,3 +257,17 @@ function setup_with_resources()
 	ui_elements.menu.appendChild(el);
 }
 
+function draw_menu(gd)
+{
+	// FIXME what to do when the game data list isn't 7 items long?
+	for (var i=0; i<7; i++)
+	{
+		const data = gd.menu_choices[i];
+		const el = ui_elements.menu_choices[i];
+		el.text.textContent = data.text;
+	}
+}
+
+// FIXME cursor changes when moving over text, do something about it.
+// FIXME maybe use cqh for more dimensions
+// FIXME buid a validator that checks whether the game data meets UI requirements.

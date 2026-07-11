@@ -8,6 +8,7 @@
 
 	font-family: "Arial", "Helvetica", "Liberation Sans", "sans-serif";
 	font-style: normal;
+	container-type: size;
 }
 
 #rogue_splash
@@ -21,5 +22,9 @@
 {
 	background-color: #C0A080;
 	box-shadow: 0px 0px 10px black;
+}
+
+#rogue_top .rogue_text
+{
 }
 
