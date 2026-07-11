@@ -1,0 +1,34 @@
+
+The UI Object Tree
+- Splash Screen
+- Error Popup
+- Main Menu
+  - TBD
+- Game
+  - View
+  - Map
+  - Info Text
+  - Bars
+    - Health
+    - Magic
+    - Food
+    - Experience
+  - Buttons
+    - Examine
+    - Inventory
+    - Quit
+  - Spells (7 Buttons)
+  - Weapons (1 shield and 6 weapon buttons)
+  - Items (7 Buttons)
+  - Question Popup
+  - Iventory Float
+    - shields
+    - armor
+    - cloaks
+    - shoes
+    - amulets
+    - Rings
+    - Overflow Items
+  - Shop Float
+    - TBD
+
