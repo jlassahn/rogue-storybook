@@ -1,0 +1,25 @@
+
+#rogue_top .rogue_view
+{
+	outline: 1px solid blue;
+}
+
+#rogue_top .rogue_ibutton
+{
+	outline: 1px solid blue;
+}
+
+#rogue_top .rogue_base
+{
+	outline: 1px solid red;
+}
+
+#rogue_top .rogue_float
+{
+}
+
+#rogue_top .rogue_text
+{
+	outline: 1px solid red;
+}
+

@@ -29,22 +29,30 @@ function make_el(kind, parent, width, height, left, top)
 
 function make_canvas(parent, width, height, left, top)
 {
-	return make_el("canvas", parent, width, height, left, top);
+	const el = make_el("canvas", parent, width, height, left, top);
+	el.classList.add("rogue_view");
+	return el;
 }
 
 function make_icon_button(parent, width, height, left, top)
 {
-	return make_el("canvas", parent, width, height, left, top);
+	const el = make_el("canvas", parent, width, height, left, top);
+	el.classList.add("rogue_ibutton");
+	return el;
 }
 
 function make_base(parent, width, height, left, top)
 {
-	return make_el("div", parent, width, height, left, top);
+	const el = make_el("div", parent, width, height, left, top);
+	el.classList.add("rogue_base");
+	return el;
 }
 
 function make_float(parent, width, height, left, top)
 {
-	return make_el("div", parent, width, height, left, top);
+	const el = make_el("div", parent, width, height, left, top);
+	el.classList.add("rogue_float");
+	return el;
 }
 
 function make_text(parent, width, height, left, top)
@@ -105,7 +113,7 @@ export function setup()
 		const y = (30 + i*8).toString() + "%";
 		const txt_el = make_text(ui_elements.menu, "50%", "6.667%", "16%", y);
 		txt_el.style.fontSize = "6cqh";
-		const img_el = make_canvas(ui_elements.menu, "4.444%", "6.667%", "10%", y);
+		const img_el = make_icon_button(ui_elements.menu, "4.444%", "6.667%", "10%", y);
 		ui_elements.menu_choices.push({
 			text: txt_el,
 			image: img_el
@@ -199,8 +207,6 @@ export function draw(gd)
 	}
 }
 
-// FIXME maybe a function to trigger sounds?
-
 export function error_popup(err)
 {
 	console.log("ui::error_popup -- "+err);
@@ -259,7 +265,6 @@ function setup_with_resources()
 
 function draw_menu(gd)
 {
-	// FIXME what to do when the game data list isn't 7 items long?
 	for (var i=0; i<7; i++)
 	{
 		const data = gd.menu_choices[i];
@@ -268,6 +273,3 @@ function draw_menu(gd)
 	}
 }
 
-// FIXME cursor changes when moving over text, do something about it.
-// FIXME maybe use cqh for more dimensions
-// FIXME buid a validator that checks whether the game data meets UI requirements.

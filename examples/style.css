@@ -5,14 +5,12 @@ body
 
 div
 {
-	/* outline: 1px solid red; */
 	padding: 0;
 	margin: 0;
 }
 
 canvas
 {
-	outline: 1px solid blue;
 	padding: 0;
 	margin: 0;
 }

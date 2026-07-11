@@ -1,7 +1,8 @@
 
 # Interactive UI Test Procedures. #
 
-1. Check for and resolve FIXME comments in src/ui.js (FIXME automate this)
+1. monitor the console there should be no errors or warnings throughout
+   the test.
 
 2. Set browser network throttling to a slow setting.  Do a clean load of the
    test page.  Watch the splash screen for display artifacts.  Note that
@@ -15,7 +16,4 @@
    from the main page by any box or shadow.
 
 5. Resize the window, all UI elements and all text should scale proportionally.
-
-6. monitor the console there should be no errors or warnings throughout
-   the test.
 
