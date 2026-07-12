@@ -29,6 +29,7 @@
 
 #rogue_top .rogue_ibutton
 {
+	cursor: pointer;
 }
 
 #rogue_top .rogue_base
@@ -42,5 +43,6 @@
 
 #rogue_top .rogue_text
 {
+	cursor: default;
 }
 
