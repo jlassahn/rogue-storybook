@@ -21,6 +21,14 @@
 #rogue_top div
 {
 	background-color: #C0A080;
+	padding: 0;
+	margin: 0;
+}
+
+#rogue_top canvas
+{
+	padding: 0;
+	margin: 0;
 }
 
 #rogue_top .rogue_view

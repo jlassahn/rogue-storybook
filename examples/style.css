@@ -1,20 +1,4 @@
 
-body
-{
-}
-
-div
-{
-	padding: 0;
-	margin: 0;
-}
-
-canvas
-{
-	padding: 0;
-	margin: 0;
-}
-
 .fullscreen
 {
 	position: fixed;
@@ -22,6 +6,13 @@ canvas
 	height: 100%;
 	left: 0%;
 	top: 0%;
+}
+
+.in_page
+{
+	position: relative;
+	width: 80cqw;
+	height: 80cqh;
 }
 
 /* This makes the largest 3/2 ratio box that fits into its parent */
