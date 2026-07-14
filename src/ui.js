@@ -70,6 +70,7 @@ export function error_popup(err)
 export function set_command_callback(fn)
 {
 	console.log("ui::set_command_callback");
+	command_callback = fn;
 }
 
 const ui_elements = {
@@ -77,6 +78,8 @@ const ui_elements = {
 	menu: null,
 	menu_choices: [],
 	menu_view: null,
+	menu_text: null,
+	menu_next: null,
 	game: null,
 	view: null,
 	map: null,
@@ -84,6 +87,8 @@ const ui_elements = {
 	inventory: null,
 	wearables: [],
 };
+
+var command_callback = null;
 
 function make_el(kind, parent, width, height, left, top)
 {
@@ -152,16 +157,26 @@ function setup_menu(root)
 
 	for (var i=0; i<7; i++)
 	{
+		const id = 101+i;
 		const y = (216 + i*56);
 		const txt_el = make_text(ui_elements.menu, 540, 48, 172, y);
 		txt_el.style.fontSize = "6cqh";
 		const img_el = make_icon_button(ui_elements.menu, 108, y);
+		txt_el.onclick = (evt) => { button_click(id); }
+		img_el.onclick = (evt) => { button_click(id); }
+		img_el.onmouseover = (evt) => { console.log("mouseover"); }
+		img_el.onmouseout = (evt) => { console.log("mouseout"); }
 		ui_elements.menu_choices.push({
 			text: txt_el,
 			image: img_el
 		});
 	}
 	ui_elements.menu_view = make_canvas(ui_elements.menu, 48*3, 48*3, 828, 216);
+	ui_elements.menu_text = make_text(ui_elements.menu, 272, 224, 760, 384);
+	ui_elements.menu_text.style.fontSize = "4cqh";
+	ui_elements.menu_next = make_text(ui_elements.menu, 224, 48, 784, 616);
+	ui_elements.menu_next.style.fontSize = "6cqh";
+	ui_elements.menu_next.onclick = (evt) => { button_click(110); }
 }
 
 function setup_game(root)
@@ -305,5 +320,12 @@ function draw_menu(gd)
 		const el = ui_elements.menu_choices[i];
 		el.text.textContent = data.text;
 	}
+	ui_elements.menu_text.textContent = gd.menu_text;
+	ui_elements.menu_next.textContent = gd.menu_next;
+}
+
+function button_click(id)
+{
+	command_callback(0, id, 0);
 }
 

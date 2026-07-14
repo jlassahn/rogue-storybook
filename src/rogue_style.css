@@ -44,5 +44,6 @@
 #rogue_top .rogue_text
 {
 	cursor: default;
+	white-space: pre;
 }
 
