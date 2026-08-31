@@ -36,40 +36,55 @@ function handle_setup_error(err)
 const game_data =
 {
 	is_menu: true,
-	menu_choices: [
-		{
-			text: "Menu Choice #1",
-		},
-		{
-			text: "Menu Choice #2",
-		},
-		{
-			text: "Menu Choice #3",
-		},
-		{
-			text: "Menu Choice #4",
-		},
-		{
-			text: "Menu Choice #5",
-		},
-		{
-			text: "Menu Choice #6",
-		},
-		{
-			text: "Menu Choice #7",
-		}
-	],
-	menu_text:
-		"This is the main\n"+
-		"menu text.  It gets\n"+
-		"updated by the game\n"+
-		"based on menu\n"+
-		"selections.",
-	menu_next: "Play",
+	menu:
+	{
+		choices: [
+			{
+				text: "Menu Choice #1",
+			},
+			{
+				text: "Menu Choice #2",
+			},
+			{
+				text: "Menu Choice #3",
+			},
+			{
+				text: "Menu Choice #4",
+			},
+			{
+				text: "Menu Choice #5",
+			},
+			{
+				text: "Menu Choice #6",
+			},
+			{
+				text: "Menu Choice #7",
+			}
+		],
+		text:
+			"This is the main\n"+
+			"menu text.  It gets\n"+
+			"updated by the game\n"+
+			"based on menu\n"+
+			"selections.",
+		next: "Play"
+	},
 
-	grid_dx: 63,
-	grid_dy: 63,
-	grid: new Uint16Array(63*63)
+	game:
+	{
+		view_x: 31,
+		view_y: 31,
+		grid_dx: 63,
+		grid_dy: 63,
+		grid: new Uint16Array(63*63),
+
+		tiles: [
+			{ tile: 2, is_wall: false },
+			{ tile: 1, is_wall: false },
+			{ tile: 0, is_wall: true },
+			{ tile: 0, is_wall: true }
+		]
+	}
 };
 
 function run_test()
@@ -92,16 +107,17 @@ function command_handler(cmd, param1, param2)
 
 function set_up_map(game_data)
 {
-	grid_functions.circle(game_data, 31, 31, 30, 0x01);
-	grid_functions.boundary(game_data, 0x01, 0x02);
-	grid_functions.clear(game_data, 0x01);
+	grid_functions.circle(game_data.game, 31, 31, 30, 0x01);
+	grid_functions.boundary(game_data.game, 0x01, 0x02);
+	grid_functions.clear(game_data.game, 0x01);
 
-	grid_functions.circle(game_data, 46, 31, 9, 0x01);
-	grid_functions.circle(game_data, 16, 31, 9, 0x01);
-	grid_functions.circle(game_data, 31, 46, 9, 0x01);
-	grid_functions.circle(game_data, 31, 16, 9, 0x01);
-	grid_functions.circle(game_data, 31, 31, 4, 0x01);
-	grid_functions.boundary(game_data, 0x01, 0x02);
-	grid_functions.clear(game_data, 0x01);
+	grid_functions.circle(game_data.game, 46, 31, 9, 0x01);
+	grid_functions.circle(game_data.game, 16, 31, 9, 0x01);
+	grid_functions.circle(game_data.game, 31, 46, 9, 0x01);
+	grid_functions.circle(game_data.game, 31, 16, 9, 0x01);
+	grid_functions.circle(game_data.game, 31, 31, 4, 0x01);
+	grid_functions.circle(game_data.game, 5, 5, 4, 0x01);
+	grid_functions.boundary(game_data.game, 0x01, 0x02);
+	//grid_functions.clear(game_data.game, 0x01);
 }
 

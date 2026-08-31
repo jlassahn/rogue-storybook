@@ -17,7 +17,7 @@
    and in an Arial-like sans-serif font.  The Text should not be separated
    from the main page by any box or shadow.
 
-1.5. Resize the window, all UI elements and all text should scale proportionally.
+1.5. Resize the window, all UI elements and text should scale proportionally.
 
 1.6. Clicking either the image or the text for the menu options should produce
    a message on the console with the correct menu IDs (101 ... 107).
@@ -46,3 +46,9 @@
 
 2.6 The map view should show a complete, accurate map of the test map.
 
+2.7 The small reference circle on the map should be in the upper left.
+
+2.8 The main view should begin by showing the exact center of the map.
+
+2.9 The bottom edge of the main view should not show interior edges of raised
+    walls.

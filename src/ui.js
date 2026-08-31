@@ -272,8 +272,31 @@ function draw_game(gd)
 		for (var y=0; y<63; y++)
 		for (var x=0; x<63; x++)
 		{
-			if (gd.grid[x + gd.grid_dx*y] != 0)
+			const ti = gd.game.grid[x + gd.game.grid_dx*y];
+			if (gd.game.tiles[ti].is_wall)
 				ctx.fillRect(x*10, y*10, 10, 10);
+		}
+	}
+
+	{
+		const canvas = ui_elements.view;
+		canvas.width = 48*15;
+		canvas.height = 48*15;
+		const ctx = canvas.getContext("2d");
+		for (var j = 0; j < 16; j++)
+		for (var i = 0; i < 15; i++)
+		{
+			const x = i + gd.game.view_x - 7;
+			const y = j + gd.game.view_y - 7;
+			const ti = gd.game.grid[x + gd.game.grid_dx*y];
+			const tile = gd.game.tiles[ti].tile;
+
+			const dstx = i*48;
+			const dsty = j*48 - 16;
+
+			const srcx = 48*tile;
+			const srcy = 64*0;
+			ctx.drawImage(tile_img, srcx, srcy, 48, 64, dstx, dsty, 48, 64);
 		}
 	}
 }
@@ -317,12 +340,12 @@ function draw_menu(gd)
 {
 	for (var i=0; i<7; i++)
 	{
-		const data = gd.menu_choices[i];
+		const data = gd.menu.choices[i];
 		const el = ui_elements.menu_choices[i];
 		el.text.textContent = data.text;
 	}
-	ui_elements.menu_text.textContent = gd.menu_text;
-	ui_elements.menu_next.textContent = gd.menu_next;
+	ui_elements.menu_text.textContent = gd.menu.text;
+	ui_elements.menu_next.textContent = gd.menu.next;
 }
 
 function button_click(id)
