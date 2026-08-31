@@ -34,3 +34,15 @@
 
 ## 2. Main Game Screen ##
 
+2.1 The main view should be a square the full height of the game on the left.
+
+2.2 The map should be a square region in the upper right.
+
+2.3 There should be a set of seven image buttons representing available weapons.
+
+2.4 There should be a set of seven image buttons representing available spells.
+
+2.5 There should be a set of seven image buttons representing usable items.
+
+2.6 The map view should show a complete, accurate map of the test map.
+

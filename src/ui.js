@@ -34,6 +34,7 @@ export function draw(gd)
 	{
 		ui_elements.menu.style.visibility = "hidden";
 		ui_elements.game.style.visibility = "visible";
+		ui_elements.inventory.style.visibility = "hidden";
 		draw_game(gd);
 	}
 }
@@ -271,7 +272,7 @@ function draw_game(gd)
 		for (var y=0; y<63; y++)
 		for (var x=0; x<63; x++)
 		{
-			if ((x+y) & 1)
+			if (gd.grid[x + gd.grid_dx*y] != 0)
 				ctx.fillRect(x*10, y*10, 10, 10);
 		}
 	}

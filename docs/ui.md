@@ -17,6 +17,7 @@ The UI Object Tree
     - Examine
     - Inventory
     - Quit
+    - game setup (sound, graphics etc)
   - Spells (7 Buttons)
   - Weapons (1 shield and 6 weapon buttons)
   - Items (7 Buttons)
@@ -29,6 +30,7 @@ The UI Object Tree
     - amulets
     - Rings
     - Overflow Items
+    - TBD how to do skills and experience stuff?
   - Shop Float
     - TBD
 

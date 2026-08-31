@@ -2,6 +2,7 @@
 import * as game from "../src/game.js"
 import * as resources from "../src/resources.js"
 import * as ui from "../src/ui.js"
+import * as grid_functions from "../src/grid_functions.js";
 
 console.log("Hello, this is the Rogue Storybook UI Test");
 
@@ -64,12 +65,17 @@ const game_data =
 		"updated by the game\n"+
 		"based on menu\n"+
 		"selections.",
-	menu_next: "Play"
+	menu_next: "Play",
+
+	grid_dx: 63,
+	grid_dy: 63,
+	grid: new Uint16Array(63*63)
 };
 
 function run_test()
 {
 	console.log("ui_test::run_test starting");
+	set_up_map(game_data);
 	ui.draw(game_data);
 }
 
@@ -82,5 +88,20 @@ function command_handler(cmd, param1, param2)
 		ui.draw(game_data);
 	}
 	return false;
+}
+
+function set_up_map(game_data)
+{
+	grid_functions.circle(game_data, 31, 31, 30, 0x01);
+	grid_functions.boundary(game_data, 0x01, 0x02);
+	grid_functions.clear(game_data, 0x01);
+
+	grid_functions.circle(game_data, 46, 31, 9, 0x01);
+	grid_functions.circle(game_data, 16, 31, 9, 0x01);
+	grid_functions.circle(game_data, 31, 46, 9, 0x01);
+	grid_functions.circle(game_data, 31, 16, 9, 0x01);
+	grid_functions.circle(game_data, 31, 31, 4, 0x01);
+	grid_functions.boundary(game_data, 0x01, 0x02);
+	grid_functions.clear(game_data, 0x01);
 }
 
