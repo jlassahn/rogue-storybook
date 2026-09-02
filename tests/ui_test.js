@@ -74,6 +74,8 @@ const game_data =
 	{
 		view_x: 31,
 		view_y: 31,
+		trim_x: 0,
+		trim_y: 0,
 		grid_dx: 63,
 		grid_dy: 63,
 		grid: new Uint16Array(63*63),
@@ -85,6 +87,12 @@ const game_data =
 			{ tile: 0, is_wall: true }
 		]
 	}
+};
+
+const local_state =
+{
+	view_dest_x: 31,
+	view_dest_y: 31
 };
 
 function run_test()
@@ -101,6 +109,89 @@ function command_handler(cmd, param1, param2)
 	{
 		game_data.is_menu = false;
 		ui.draw(game_data);
+		return false;
+	}
+
+	if (cmd == 1)
+	{
+		local_state.view_dest_x = param1;
+		local_state.view_dest_y = param2;
+
+		return move_update();
+	}
+
+	if (cmd == 3)
+	{
+		return move_update();
+	}
+	return false;
+}
+
+function move_update()
+{
+	const step = 8;
+
+	if (game_data.game.trim_x != 0)
+	{
+		if (game_data.game.view_x < local_state.view_dest_x)
+		{
+			game_data.game.trim_x += step;
+			if (game_data.game.trim_x >= 48)
+			{
+				game_data.game.trim_x = 0;
+				game_data.game.view_x ++;
+			}
+		}
+		else
+		{
+			game_data.game.trim_x -= step;
+		}
+	}
+	else if (game_data.game.view_x > local_state.view_dest_x)
+	{
+		game_data.game.view_x --;
+		game_data.game.trim_x = 48 - step;
+	}
+	else if (game_data.game.view_x < local_state.view_dest_x)
+	{
+		game_data.game.trim_x += step;
+	}
+
+
+	if (game_data.game.trim_y != 0)
+	{
+		if (game_data.game.view_y < local_state.view_dest_y)
+		{
+			game_data.game.trim_y += step;
+			if (game_data.game.trim_y >= 48)
+			{
+				game_data.game.trim_y = 0;
+				game_data.game.view_y ++;
+			}
+		}
+		else
+		{
+			game_data.game.trim_y -= step;
+		}
+	}
+	else if (game_data.game.view_y > local_state.view_dest_y)
+	{
+		game_data.game.view_y --;
+		game_data.game.trim_y = 48 - step;
+	}
+	else if (game_data.game.view_y < local_state.view_dest_y)
+	{
+		game_data.game.trim_y += step;
+	}
+
+	ui.draw(game_data);
+
+	if ((game_data.game.view_x != local_state.view_dest_x)
+	 || (game_data.game.view_y != local_state.view_dest_y)
+	 || (game_data.game.trim_x != 0)
+	 || (game_data.game.trim_y != 0))
+	{
+		return true;
 	}
 	return false;
 }

@@ -52,3 +52,7 @@
 
 2.9 The bottom edge of the main view should not show interior edges of raised
     walls.
+
+2.10 When clicking on the map, the main view should smoothly scroll to be
+     centered at the click location.
+

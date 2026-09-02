@@ -283,16 +283,26 @@ function draw_game(gd)
 		canvas.width = 48*15;
 		canvas.height = 48*15;
 		const ctx = canvas.getContext("2d");
-		for (var j = 0; j < 16; j++)
-		for (var i = 0; i < 15; i++)
+		for (var j = 0; j < 17; j++)
+		for (var i = 0; i < 16; i++)
 		{
 			const x = i + gd.game.view_x - 7;
 			const y = j + gd.game.view_y - 7;
+
+			if (x < 0)
+				continue;
+			if (x >= 63)
+				continue;
+			if (y < 0)
+				continue;
+			if (y >= 63)
+				continue;
+
 			const ti = gd.game.grid[x + gd.game.grid_dx*y];
 			const tile = gd.game.tiles[ti].tile;
 
-			const dstx = i*48;
-			const dsty = j*48 - 16;
+			const dstx = i*48 - gd.game.trim_x;
+			const dsty = j*48 - 16 - gd.game.trim_y;
 
 			const srcx = 48*tile;
 			const srcy = 64*0;
@@ -313,9 +323,12 @@ function handle_map_click(evt)
 	// canvas.getBoundingClientRect()
 	// use event clientX and clientY for mouse coordinates
 	// x = (clientX - rect.left)*xresolution/rect.width;
-	var rc = ui_elements.map.getBoundingClientRect();
-	console.log((evt.clientX - rc.left)*100/rc.width);
-	console.log((evt.clientY - rc.top)*100/rc.height);
+	const rc = ui_elements.map.getBoundingClientRect();
+	const x = Math.floor((evt.clientX - rc.left)*63/rc.width);
+	const y = Math.floor((evt.clientY - rc.top)*63/rc.height);
+	//console.log(x);
+	//console.log(y);
+	do_command(1, x, y);
 }
 
 function handle_wearable_click(x, y, evt)
@@ -350,6 +363,27 @@ function draw_menu(gd)
 
 function button_click(id)
 {
-	command_callback(0, id, 0);
+	const ret = do_command(0, id, 0);
+}
+
+var animation_running = false;
+
+function do_command(cmd, p1, p2)
+{
+	if (animation_running)
+		return;
+
+	const ret = command_callback(cmd, p1, p2);
+	animation_running = ret;
+	if (ret)
+		setTimeout(animate, 100);
+}
+
+function animate()
+{
+	const ret = command_callback(3, 0, 0);
+	animation_running = ret;
+	if (ret)
+		setTimeout(animate, 10);
 }
 
