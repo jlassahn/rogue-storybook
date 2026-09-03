@@ -1,6 +1,12 @@
 
 import * as resources from "./resources.js"
 
+export const Command = {
+	STEP: 3,
+	MENU_BUTTON: 0,
+	MAP_CLICK: 1
+};
+
 export function setup()
 {
 	console.log("ui::setup starting");
@@ -328,7 +334,7 @@ function handle_map_click(evt)
 	const y = Math.floor((evt.clientY - rc.top)*63/rc.height);
 	//console.log(x);
 	//console.log(y);
-	do_command(1, x, y);
+	do_command(Command.MAP_CLICK, x, y);
 }
 
 function handle_wearable_click(x, y, evt)
@@ -363,7 +369,7 @@ function draw_menu(gd)
 
 function button_click(id)
 {
-	const ret = do_command(0, id, 0);
+	const ret = do_command(Command.MENU_BUTTON, id, 0);
 }
 
 var animation_running = false;
@@ -381,7 +387,7 @@ function do_command(cmd, p1, p2)
 
 function animate()
 {
-	const ret = command_callback(3, 0, 0);
+	const ret = command_callback(Command.STEP, 0, 0);
 	animation_running = ret;
 	if (ret)
 		setTimeout(animate, 10);

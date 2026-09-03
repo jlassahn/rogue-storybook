@@ -105,14 +105,14 @@ function run_test()
 function command_handler(cmd, param1, param2)
 {
 	console.log("command cmd="+cmd+" p1="+param1+" p2="+param2);
-	if ((cmd==0) && (param1 == 110))
+	if ((cmd==ui.Command.MENU_BUTTON) && (param1 == 110))
 	{
 		game_data.is_menu = false;
 		ui.draw(game_data);
 		return false;
 	}
 
-	if (cmd == 1)
+	if (cmd == ui.Command.MAP_CLICK)
 	{
 		local_state.view_dest_x = param1;
 		local_state.view_dest_y = param2;
@@ -120,7 +120,7 @@ function command_handler(cmd, param1, param2)
 		return move_update();
 	}
 
-	if (cmd == 3)
+	if (cmd == ui.Command.STEP)
 	{
 		return move_update();
 	}
