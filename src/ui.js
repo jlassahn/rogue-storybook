@@ -1,6 +1,8 @@
 
 import * as resources from "./resources.js"
 
+const MAP_DX = 63;
+
 export const Command = {
 	STEP: 3,
 	MENU_BUTTON: 0,
@@ -79,6 +81,14 @@ export function set_command_callback(fn)
 	console.log("ui::set_command_callback");
 	command_callback = fn;
 }
+
+// Indexed by tile_info.map_colors
+const map_colors = [
+	"rgb(0,0,0)", // UNKNOWN
+	"rgb(64,64,64)", // WALL
+	"rgb(192,192,192)", // FLOOR
+	"rgb(255,192,128)" // DOOR
+];
 
 const ui_elements = {
 	popup: null,
@@ -275,12 +285,12 @@ function draw_game(gd)
 	{
 		const canvas = ui_elements.map;
 		const ctx = canvas.getContext("2d");
-		for (var y=0; y<63; y++)
-		for (var x=0; x<63; x++)
+		for (var y=0; y<MAP_DX; y++)
+		for (var x=0; x<MAP_DX; x++)
 		{
-			const ti = gd.game.grid[x + gd.game.grid_dx*y];
-			if (gd.game.tiles[ti].is_wall)
-				ctx.fillRect(x*10, y*10, 10, 10);
+			const c = gd.map_cells[x + MAP_DX*y].map_color();
+			ctx.fillStyle = map_colors[c];
+			ctx.fillRect(x*10, y*10, 10, 10);
 		}
 	}
 
@@ -297,15 +307,16 @@ function draw_game(gd)
 
 			if (x < 0)
 				continue;
-			if (x >= 63)
+			if (x >= MAP_DX)
 				continue;
 			if (y < 0)
 				continue;
-			if (y >= 63)
+			if (y >= MAP_DX)
 				continue;
 
-			const ti = gd.game.grid[x + gd.game.grid_dx*y];
-			const tile = gd.game.tiles[ti].tile;
+			const cell = gd.map_cells[x + MAP_DX*y];
+			const lt = cell.low_tiles();
+			const tile = lt[0];
 
 			const dstx = i*48 - gd.game.trim_x;
 			const dsty = j*48 - 16 - gd.game.trim_y;
@@ -325,15 +336,9 @@ function handle_view_click(evt)
 function handle_map_click(evt)
 {
 	console.log(evt);
-	// to compute canvas coordinates
-	// canvas.getBoundingClientRect()
-	// use event clientX and clientY for mouse coordinates
-	// x = (clientX - rect.left)*xresolution/rect.width;
 	const rc = ui_elements.map.getBoundingClientRect();
-	const x = Math.floor((evt.clientX - rc.left)*63/rc.width);
-	const y = Math.floor((evt.clientY - rc.top)*63/rc.height);
-	//console.log(x);
-	//console.log(y);
+	const x = Math.floor((evt.clientX - rc.left)*MAP_DX/rc.width);
+	const y = Math.floor((evt.clientY - rc.top)*MAP_DX/rc.height);
 	do_command(Command.MAP_CLICK, x, y);
 }
 

@@ -3,6 +3,8 @@ import * as game from "../src/game.js"
 import * as resources from "../src/resources.js"
 import * as ui from "../src/ui.js"
 import * as grid_functions from "../src/grid_functions.js";
+import * as map from "../src/map.js";
+import * as tile_info from "../src/tile_info.js";
 
 console.log("Hello, this is the Rogue Storybook UI Test");
 
@@ -79,6 +81,7 @@ const game_data =
 		grid_dx: 63,
 		grid_dy: 63,
 		grid: new Uint16Array(63*63),
+		map_cells: null,
 
 		tiles: [
 			{ tile: 2, is_wall: false },
@@ -210,5 +213,28 @@ function set_up_map(game_data)
 	grid_functions.circle(game_data.game, 5, 5, 4, 0x01);
 	grid_functions.boundary(game_data.game, 0x01, 0x02);
 	//grid_functions.clear(game_data.game, 0x01);
+
+	game_data.map_cells = [];
+	for (var i=0; i<63*63; i++)
+	{
+		const flags = tile_info.flags.KNOWN | tile_info.flags.VISIBLE;
+		var cell_id = tile_info.cells.BASIC_BLANK;
+		switch (game_data.game.grid[i])
+		{
+			case 0:
+				cell_id = tile_info.cells.BASIC_GROUND;
+				break;
+			case 1:
+				cell_id = tile_info.cells.BASIC_FLOOR;
+				break;
+			case 2:
+			case 3:
+				cell_id = tile_info.cells.BASIC_WALL;
+				break;
+		}
+
+		const cell = new map.MapCell(cell_id, flags);
+		game_data.map_cells.push(cell);
+	}
 }
 

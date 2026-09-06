@@ -1,4 +1,7 @@
 
+import * as tile_info from "./tile_info.js";
+import * as cell_info from "./cell_info.js";
+
 function select_random(seq)
 {
 	const i = Math.floor(Math.random() * seq.length);
@@ -101,5 +104,42 @@ export class SequenceMap extends Map
 		this.start = new Link();
 		this.end = new Link();
 	}
+}
+
+export class MapCell
+{
+	// FIXME what about timed effects?
+	constructor(cell_id, flags)
+	{
+		this.cell_id = cell_id;
+		this.flags = flags;
+		this.item = null;
+		this.creature = null;
+	}
+
+	map_color()
+	{
+		if ((this.flags & tile_info.flags.KNOWN) == 0)
+			return tile_info.map_colors.UNKNOWN;
+		const ci = cell_info.cells[this.cell_id];
+		return ci.color;
+	}
+
+	low_tiles()
+	{
+		if ((this.flags & tile_info.flags.KNOWN) == 0)
+			return [tile_info.tile_ids.BASIC_BLANK];
+		const ci = cell_info.cells[this.cell_id];
+		return ci.low;
+	}
+
+	high_tiles()
+	{
+		if ((this.flags & tile_info.flags.KNOWN) == 0)
+			return [];
+		const ci = cell_info.cells[this.cell_id];
+		return ci.high;
+	}
+
 }
 
