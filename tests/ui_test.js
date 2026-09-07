@@ -15,7 +15,6 @@ function setup()
 	console.log("ui_test::setup starting");
 	ui.setup()
 		.then(x => resources.setup())
-		.then(x => game.setup())
 		.then(start)
 		.catch(handle_setup_error);
 	console.log("main:setup finished");
@@ -78,17 +77,7 @@ const game_data =
 		view_y: 31,
 		trim_x: 0,
 		trim_y: 0,
-		grid_dx: 63,
-		grid_dy: 63,
-		grid: new Uint16Array(63*63),
 		map_cells: null,
-
-		tiles: [
-			{ tile: 2, is_wall: false },
-			{ tile: 1, is_wall: false },
-			{ tile: 0, is_wall: true },
-			{ tile: 0, is_wall: true }
-		]
 	}
 };
 
@@ -201,25 +190,31 @@ function move_update()
 
 function set_up_map(game_data)
 {
-	grid_functions.circle(game_data.game, 31, 31, 30, 0x01);
-	grid_functions.boundary(game_data.game, 0x01, 0x02);
-	grid_functions.clear(game_data.game, 0x01);
+	const grid =
+	{
+		grid_dx: 63,
+		grid_dy: 63,
+		grid: new Uint16Array(63*63)
+	};
+	grid_functions.circle(grid, 31, 31, 30, 0x01);
+	grid_functions.boundary(grid, 0x01, 0x02);
+	grid_functions.clear(grid, 0x01);
 
-	grid_functions.circle(game_data.game, 46, 31, 9, 0x01);
-	grid_functions.circle(game_data.game, 16, 31, 9, 0x01);
-	grid_functions.circle(game_data.game, 31, 46, 9, 0x01);
-	grid_functions.circle(game_data.game, 31, 16, 9, 0x01);
-	grid_functions.circle(game_data.game, 31, 31, 4, 0x01);
-	grid_functions.circle(game_data.game, 5, 5, 4, 0x01);
-	grid_functions.boundary(game_data.game, 0x01, 0x02);
-	//grid_functions.clear(game_data.game, 0x01);
+	grid_functions.circle(grid, 46, 31, 9, 0x01);
+	grid_functions.circle(grid, 16, 31, 9, 0x01);
+	grid_functions.circle(grid, 31, 46, 9, 0x01);
+	grid_functions.circle(grid, 31, 16, 9, 0x01);
+	grid_functions.circle(grid, 31, 31, 4, 0x01);
+	grid_functions.circle(grid, 5, 5, 4, 0x01);
+	grid_functions.boundary(grid, 0x01, 0x02);
+	//grid_functions.clear(grid, 0x01);
 
-	game_data.map_cells = [];
+	game_data.game.map_cells = [];
 	for (var i=0; i<63*63; i++)
 	{
 		const flags = tile_info.flags.KNOWN | tile_info.flags.VISIBLE;
 		var cell_id = tile_info.cells.BASIC_BLANK;
-		switch (game_data.game.grid[i])
+		switch (grid.grid[i])
 		{
 			case 0:
 				cell_id = tile_info.cells.BASIC_GROUND;
@@ -234,7 +229,7 @@ function set_up_map(game_data)
 		}
 
 		const cell = new map.MapCell(cell_id, flags);
-		game_data.map_cells.push(cell);
+		game_data.game.map_cells.push(cell);
 	}
 }
 

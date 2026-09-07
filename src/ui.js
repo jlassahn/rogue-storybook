@@ -4,9 +4,9 @@ import * as resources from "./resources.js"
 const MAP_DX = 63;
 
 export const Command = {
-	STEP: 3,
-	MENU_BUTTON: 0,
-	MAP_CLICK: 1
+	STEP: 0,
+	MENU_BUTTON: 1,
+	MAP_CLICK: 2
 };
 
 export function setup()
@@ -288,7 +288,7 @@ function draw_game(gd)
 		for (var y=0; y<MAP_DX; y++)
 		for (var x=0; x<MAP_DX; x++)
 		{
-			const c = gd.map_cells[x + MAP_DX*y].map_color();
+			const c = gd.game.map_cells[x + MAP_DX*y].map_color();
 			ctx.fillStyle = map_colors[c];
 			ctx.fillRect(x*10, y*10, 10, 10);
 		}
@@ -314,7 +314,7 @@ function draw_game(gd)
 			if (y >= MAP_DX)
 				continue;
 
-			const cell = gd.map_cells[x + MAP_DX*y];
+			const cell = gd.game.map_cells[x + MAP_DX*y];
 			const lt = cell.low_tiles();
 			const tile = lt[0];
 
