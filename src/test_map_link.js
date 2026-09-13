@@ -48,5 +48,12 @@ export function test()
 	assert.strictEqual(map_sequence.children[3].end.peer, end);
 	assert.strictEqual(map_sequence.children[3].end, end.peer);
 	assert.strictEqual(map_sequence.end.peer, null);
+
+	for (var i=0; i<4; i++)
+	{
+		const child = map_sequence.children[i];
+		assert.strictEqual(child.start.map, child);
+		assert.strictEqual(child.end.map, child);
+	}
 }
 

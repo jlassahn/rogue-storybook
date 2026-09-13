@@ -13,6 +13,13 @@ export class Game
 	constructor()
 	{
 		this.places = [];
+		this.top = null;
+		this.start = new Link();
+	}
+
+	set_top(grp)
+	{
+		this.top = grp;
 	}
 }
 
@@ -21,12 +28,14 @@ export class Link
 	constructor()
 	{
 		this.peer = null;
+		this.map = null;
 	}
 
 	connect(x)
 	{
 		this.peer = x;
-		x.peer = this;
+		if (x)
+			x.peer = this;
 	}
 
 	claim(x)
@@ -102,7 +111,9 @@ export class SequenceMap extends Map
 	{
 		super(game);
 		this.start = new Link();
+		this.start.map = this;
 		this.end = new Link();
+		this.end.map = this;
 	}
 }
 
