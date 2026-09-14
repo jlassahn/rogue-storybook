@@ -76,7 +76,9 @@ function setup_game()
 	game_state = {}
 	stories[story_id].generator(game_state);
 
-	game_ui.game.map_cells = []; // FIXME fake
+	var mg = game_state.map_game;
+	const start_map = mg.start.peer.map; // FIXME make accessor?
+	start_map.unpack(game_ui.game);
 }
 
 function command_handler(cmd, param1, param2)

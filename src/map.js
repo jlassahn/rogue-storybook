@@ -20,6 +20,12 @@ export class Game
 	set_top(grp)
 	{
 		this.top = grp;
+		this.start.connect(grp.start);
+	}
+
+	generate()
+	{
+		this.top.generate();
 	}
 }
 
@@ -99,9 +105,23 @@ export class Map extends Place
 	constructor(game)
 	{
 		super(game);
-		this.grid_dx = 63;
-		this.grid_dy = 63;
-		this.grid = new Uint16Array(this.grid_dx*this.grid_dy);
+		this.cell_ids = new Uint16Array(63*63);
+		this.cell_flags = new Uint16Array(63*63);
+	}
+
+	generate()
+	{
+	}
+
+	unpack(ui_game)
+	{
+		var cells = [];
+		for (var i=0; i<63*63; i++)
+		{
+			const cell = new MapCell(this.cell_ids[i], this.cell_flags[i]);
+			cells.push(cell);
+		}
+		ui_game.map_cells = cells;
 	}
 }
 

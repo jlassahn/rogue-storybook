@@ -30,3 +30,26 @@ export function check_map(m)
 {
 }
 
+export function check_ui_data(gd)
+{
+	assert.strictEqual(typeof gd.is_menu, "boolean");
+	if (gd.is_menu)
+	{
+		assert.strictEqual(typeof gd.menu, "object");
+		assert.strictEqual(typeof gd.menu.choices, "object");
+		assert(Array.isArray(gd.menu.choices));
+		assert.strictEqual(gd.menu.choices.length, 7);
+		for (var i=0; i<7; i++)
+		{
+			const choice = gd.menu.choices[i];
+			assert.strictEqual(typeof choice.text, "string");
+		}
+		assert.strictEqual(typeof gd.menu.text, "string");
+		assert.strictEqual(typeof gd.menu.next, "string");
+	}
+	else
+	{
+		assert(Array.isArray(gd.game.map_cells));
+	}
+}
+

@@ -1,6 +1,8 @@
 
 import assert from "node:assert";
 import * as game from "./game.js";
+import * as map from "./map.js";
+import * as validators from "./test_validators.js";
 import {Command} from "./ui.js";
 
 class MockUI
@@ -14,7 +16,7 @@ class MockUI
 
 	draw(gd)
 	{
-		check_ui_data(gd);
+		validators.check_ui_data(gd);
 		if (this.mock_draw)
 			this.mock_draw(gd);
 		else
@@ -59,29 +61,6 @@ class MockUI
 	}
 };
 
-function check_ui_data(gd)
-{
-	assert.strictEqual(typeof gd.is_menu, "boolean");
-	if (gd.is_menu)
-	{
-		assert.strictEqual(typeof gd.menu, "object");
-		assert.strictEqual(typeof gd.menu.choices, "object");
-		assert(Array.isArray(gd.menu.choices));
-		assert.strictEqual(gd.menu.choices.length, 7);
-		for (var i=0; i<7; i++)
-		{
-			const choice = gd.menu.choices[i];
-			assert.strictEqual(typeof choice.text, "string");
-		}
-		assert.strictEqual(typeof gd.menu.text, "string");
-		assert.strictEqual(typeof gd.menu.next, "string");
-	}
-	else
-	{
-		assert(Array.isArray(gd.game.map_cells));
-	}
-}
-
 function test_start_menu()
 {
 	const ui = new MockUI();
@@ -90,6 +69,9 @@ function test_start_menu()
 
 	function mock_gamegen(gs)
 	{
+		gs.map_game = new map.Game();
+		const gm = new map.SequenceMap(gs.map_game);
+		gs.map_game.start.connect(gm.start);
 		gamegen_done = true;
 	}
 
