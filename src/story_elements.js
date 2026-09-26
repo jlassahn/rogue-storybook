@@ -51,6 +51,7 @@ class TunnelMap extends map.SequenceMap
 		var x = 31;
 		var y = 31;
 		var dir = 0;
+		var size = 5;
 		const dirs =
 			[
 			[1,0],
@@ -71,34 +72,52 @@ class TunnelMap extends map.SequenceMap
 			[1,0]
 			];
 
-		for (let i=0; i<100; i++)
+		for (let j=0; j<4; j++)
 		{
-			grid_functions.circle(grid, x, y, 5, 0x01);
-			x += dirs[dir][0];
-			y += dirs[dir][1];
+			dir = Math.floor(Math.random() * 16);
+			x = 31;
+			y = 31;
+			for (let i=0; i<50; i++)
+			{
+				grid_functions.circle(grid, x, y, size, 0x01);
+				const dx = dirs[dir][0];
+				const dy = dirs[dir][1];
 
-			if (x > 61-5)
-				x = 61-5;
-			if (x < 1+5)
-				x = 1+5;
-			if (y > 61-5)
-				y = 61-5;
-			if (y < 1+5)
-				y = 1+5;
+				if ((x+dx > 61-5)
+				 || (x+dx < 1+5)
+				 || (y+dy > 61-5)
+				 || (y+dy < 1+5))
+				{
+					dir = Math.floor(Math.random() * 16);
+				}
+				else
+				{
+					x += dx;
+					y += dy;
+				}
 
-			if (Math.random() < 0.5)
-				dir ++;
-			if (Math.random() < 0.5)
-				dir --;
-			dir = dir & 15;
+				if ((size > 2) && (Math.random()<0.5))
+					size --;
+				if ((size < 5) && (Math.random()<0.5))
+					size ++;
+
+				const dd = Math.floor(Math.random() * 3) - 1;
+				dir += dd;
+				dir = dir & 15;
+			}
 		}
-
+		grid_functions.boundary(grid, 0x01, 0x02);
 
 		for (let i=0; i<63*63; i++)
 		{
 			if (grid.grid[i] == 0x01)
 			{
 				this.cell_ids[i] = 3;
+				this.cell_flags[i] = 3;
+			}
+			if (grid.grid[i] == 0x03)
+			{
+				this.cell_ids[i] = 1;
 				this.cell_flags[i] = 3;
 			}
 		}
