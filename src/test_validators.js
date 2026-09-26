@@ -1,6 +1,7 @@
 
 import assert from "node:assert";
 import * as map from "./map.js";
+import * as tile_info from "./tile_info.js";
 
 export function check_map_game(mg)
 {
@@ -28,6 +29,21 @@ export function check_map_game(mg)
 
 export function check_map(m)
 {
+	var valid_cells = 0;
+	var visible_cells = 0;
+	var known_cells = 0;
+	for (var i=0; i<63*63; i++)
+	{
+		if (m.cell_ids[i] != 0)
+			valid_cells ++;
+		if (m.cell_flags[i] & tile_info.flags.KNOWN)
+			known_cells ++;
+		if (m.cell_flags[i] & tile_info.flags.VISIBLE)
+			visible_cells ++;
+	}
+	assert(valid_cells > 0);
+	assert(visible_cells > 0);
+	assert(known_cells >= visible_cells);
 }
 
 export function check_ui_data(gd)

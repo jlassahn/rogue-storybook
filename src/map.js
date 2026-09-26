@@ -68,6 +68,15 @@ export class Group extends Place
 		super(game);
 		this.children = [];
 	}
+
+	generate()
+	{
+		const len = this.children.length;
+		for (let i=0; i<len; i++)
+		{
+			this.children[i].generate();
+		}
+	}
 }
 
 export class Sequence extends Group
@@ -97,6 +106,8 @@ export class Sequence extends Group
 
 		this.children[0].start.claim(this.start);
 		this.children[len - 1].end.claim(this.end);
+
+		super.generate();
 	}
 }
 
