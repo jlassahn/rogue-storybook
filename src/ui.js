@@ -265,6 +265,14 @@ function hide_splash()
 	splash_done = true;
 }
 
+function draw_tile(ctx, tile, dstx, dsty)
+{
+	const srcx = 48*(tile & 7);
+	const srcy = 64*((tile >> 3) & 7);
+	const sheet = tile >> 6;
+	const tile_img = resources.data.tiles[sheet];
+	ctx.drawImage(tile_img, srcx, srcy, 48, 64, dstx, dsty, 48, 64);
+}
 
 function draw_game(gd)
 {
@@ -305,27 +313,98 @@ function draw_game(gd)
 			const x = i + gd.game.view_x - 7;
 			const y = j + gd.game.view_y - 7;
 
-			if (x < 0)
+			const dstx = i*48 - gd.game.trim_x;
+			const dsty = j*48 - 16 - gd.game.trim_y;
+
+			if ((x < 0) || (x >= MAP_DX) || (y < 0) || (y >= MAP_DX))
+			{
+				draw_tile(ctx, 0, dstx, dsty);
 				continue;
-			if (x >= MAP_DX)
-				continue;
-			if (y < 0)
-				continue;
-			if (y >= MAP_DX)
-				continue;
+			}
 
 			const cell = gd.game.map_cells[x + MAP_DX*y];
 			const lt = cell.low_tiles();
 
-			const dstx = i*48 - gd.game.trim_x;
-			const dsty = j*48 - 16 - gd.game.trim_y;
-
 			for (var k=0; k<lt.length; k++)
 			{
-				const tile = lt[k];
-				const srcx = 48*tile;
-				const srcy = 64*0;
-				ctx.drawImage(tile_img, srcx, srcy, 48, 64, dstx, dsty, 48, 64);
+				draw_tile(ctx, lt[k], dstx, dsty);
+			}
+
+			if (cell.item)
+			{
+				const t = cell.item.tiles;
+				for (var k=0; k<t.length; k++)
+				{
+					draw_tile(ctx, t[k], dstx, dsty);
+				}
+			}
+
+			if ((x > 0) && (y > 0))
+			{
+				const tc = gd.game.map_cells[x-1 + MAP_DX*(y-1)];
+				if (tc.creature)
+				{
+					const ct = tc.creature.tiles;
+					const tx = tc.creature.trim_x;
+					const ty = tc.creature.trim_y;
+					if ((tx > 0) && (ty > 0))
+					{
+						for (var k=0; k<ct.length; k++)
+						{
+							draw_tile(ctx, ct[k], dstx+tx-48, dsty+ty-48);
+						}
+					}
+				}
+			}
+
+			if (y > 0)
+			{
+				const tc = gd.game.map_cells[x + MAP_DX*(y-1)];
+				if (tc.creature)
+				{
+					const ct = tc.creature.tiles;
+					const tx = tc.creature.trim_x;
+					const ty = tc.creature.trim_y;
+					if ((tx <= 0) && (ty > 0))
+					{
+						for (var k=0; k<ct.length; k++)
+						{
+							draw_tile(ctx, ct[k], dstx+tx, dsty+ty-48);
+						}
+					}
+				}
+			}
+
+			if (x > 0)
+			{
+				const tc = gd.game.map_cells[x-1 + MAP_DX*y];
+				if (tc.creature)
+				{
+					const ct = tc.creature.tiles;
+					const tx = tc.creature.trim_x;
+					const ty = tc.creature.trim_y;
+					if ((tx > 0) && (ty <= 0))
+					{
+						for (var k=0; k<ct.length; k++)
+						{
+							draw_tile(ctx, ct[k], dstx+tx-48, dsty+ty);
+						}
+					}
+				}
+			}
+
+			if (cell.creature)
+			{
+				const ct = cell.creature.tiles;
+				const tx = cell.creature.trim_x;
+				const ty = cell.creature.trim_y;
+				if ((tx <= 0) && (ty <= 0))
+				{
+					for (var k=0; k<ct.length; k++)
+					{
+						draw_tile(ctx, ct[k], dstx+tx, dsty+ty);
+					}
+				}
 			}
 		}
 	}

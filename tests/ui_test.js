@@ -235,5 +235,38 @@ function set_up_map(game_data)
 	game_data.game.map_cells[9 + 63*5].cell_id = tile_info.cells.BASIC_DOOR;
 	game_data.game.map_cells[5 + 63*5].cell_id = tile_info.cells.BASIC_DOWN;
 	game_data.game.map_cells[31 + 63*31].cell_id = tile_info.cells.BASIC_UP;
+
+	const c0 = { trim_x: 0, trim_y: 0, tiles: [17]};
+	game_data.game.map_cells[31 + 63*16].creature = c0;
+
+	const c1 = { trim_x: -24, trim_y: -24, tiles: [17]};
+	game_data.game.map_cells[30 + 63*15].creature = c1;
+
+	const c2 = { trim_x: 0, trim_y: -24, tiles: [17]};
+	game_data.game.map_cells[31 + 63*15].creature = c2;
+
+	const c3 = { trim_x: 24, trim_y: -24, tiles: [17]};
+	game_data.game.map_cells[32 + 63*15].creature = c3;
+
+	const c4 = { trim_x: -24, trim_y: 0, tiles: [17]};
+	game_data.game.map_cells[30 + 63*16].creature = c4;
+
+	const c5 = { trim_x: 24, trim_y: 0, tiles: [17]};
+	game_data.game.map_cells[32 + 63*16].creature = c5;
+
+	const c6 = { trim_x: -24, trim_y: 24, tiles: [17]};
+	game_data.game.map_cells[30 + 63*17].creature = c6;
+
+	const c7 = { trim_x: 0, trim_y: 24, tiles: [17]};
+	game_data.game.map_cells[31 + 63*17].creature = c7;
+
+	const c8 = { trim_x: 24, trim_y: 24, tiles: [17]};
+	game_data.game.map_cells[32 + 63*17].creature = c8;
+
+	const pc = { trim_x: 0, trim_y: 0, tiles: [16]};
+	game_data.game.map_cells[34 + 63*31].creature = pc;
+
+	const item = {tiles: [8]};
+	game_data.game.map_cells[28 + 63*31].item = item;
 }
 

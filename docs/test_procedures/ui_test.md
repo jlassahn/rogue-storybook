@@ -59,3 +59,13 @@
 2.11 A down ladder and two doors should appear in the small reference circle.
      An up ladder should appear in the map center.
 
+2.12 Nine creatures should be in the upper large circle, in a grid pattern
+     with the outer eight offset outward by half a grid.  The creature
+     images should not be clipped by the floor tiles.
+
+2.13 A player should be in the far right of the central circle.  Walls should
+     properly overlap.
+
+2.14 A potion should be in the far left of the central circle.  Walls should
+     properly overlap.
+
