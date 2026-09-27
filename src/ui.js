@@ -6,7 +6,8 @@ const MAP_DX = 63;
 export const Command = {
 	STEP: 0,
 	MENU_BUTTON: 1,
-	MAP_CLICK: 2
+	MAP_CLICK: 2,
+	VIEW_CLICK: 3
 };
 
 export function setup()
@@ -413,6 +414,10 @@ function draw_game(gd)
 function handle_view_click(evt)
 {
 	console.log(evt);
+	const rc = ui_elements.view.getBoundingClientRect();
+	const x = Math.floor((evt.clientX - rc.left)*15/rc.width);
+	const y = Math.floor((evt.clientY - rc.top)*15/rc.height);
+	do_command(Command.VIEW_CLICK, x-7, y-7);
 }
 
 function handle_map_click(evt)

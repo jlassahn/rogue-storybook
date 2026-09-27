@@ -79,13 +79,20 @@ function setup_game()
 	var mg = game_state.map_game;
 	const start_map = mg.start.peer.map; // FIXME make accessor?
 	start_map.unpack(game_ui.game);
+
+	const player = game_state.player;
+	const cell = game_ui.game.map_cells[player.map_x + 63*player.map_y];
+	cell.creature = player;
 }
 
 function command_handler(cmd, param1, param2)
 {
 	console.log("command cmd="+cmd+" p1="+param1+" p2="+param2);
 	if (cmd == Command.MENU_BUTTON)
-		menu_handler(cmd, param1, param2);
+		return menu_handler(cmd, param1, param2);
+
+	if (cmd == Command.VIEW_CLICK)
+		return view_click_handler(cmd, param1, param2);
 }
 
 function menu_handler(cmd, param1, param2)
@@ -95,6 +102,28 @@ function menu_handler(cmd, param1, param2)
 		setup_game();
 		game_ui.is_menu = false;
 		ui.draw(game_ui);
+		return false;
 	}
+}
+
+function view_click_handler(cmd, param1, param2)
+{
+	const x = game_ui.game.view_x + param1;
+	const y = game_ui.game.view_y + param2;
+
+	const px = game_state.player.map_x;
+	const py = game_state.player.map_y;
+
+	// FIXME check if move is valid before moving
+	// FIXME use steps for smooth animation of move
+	game_ui.game.map_cells[px + 63*py].creature = null;
+
+	game_ui.game.map_cells[x + 63*y].creature = game_state.player;
+	game_state.player.map_x = x;
+	game_state.player.map_y = y;
+	game_ui.game.view_x = x;
+	game_ui.game.view_y = y;
+
+	ui.draw(game_ui);
 }
 

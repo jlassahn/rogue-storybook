@@ -69,3 +69,5 @@
 2.14 A potion should be in the far left of the central circle.  Walls should
      properly overlap.
 
+2.15 When clicking on the main view, a console message should be printed
+     with the correct tile offset from the center of the view.
