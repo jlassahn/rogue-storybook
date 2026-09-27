@@ -56,3 +56,6 @@
 2.10 When clicking on the map, the main view should smoothly scroll to be
      centered at the click location.
 
+2.11 A down ladder and two doors should appear in the small reference circle.
+     An up ladder should appear in the map center.
+

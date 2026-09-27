@@ -12,7 +12,9 @@ export const cells =
 	BASIC_WALL: 1,
 	BASIC_FLOOR: 2,
 	BASIC_GROUND: 3,
-	BASIC_DOOR: 4
+	BASIC_DOOR: 4,
+	BASIC_UP: 5,
+	BASIC_DOWN: 6
 };
 
 export const map_colors =
@@ -25,10 +27,13 @@ export const map_colors =
 
 export const tile_ids =
 {
-	BASIC_BLANK: 3,
-	BASIC_WALL: 0,
-	BASIC_FLOOR: 1,
-	BASIC_GROUND: 2,
+	BASIC_BLANK: 0,
+	BASIC_WALL: 1,
+	BASIC_FLOOR: 2,
+	BASIC_GROUND: 3,
+	BASIC_DOOR: 4,
+	BASIC_UP: 5,
+	BASIC_DOWN: 6,
 	BASIC_POTION: 8
 };
 

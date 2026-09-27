@@ -25,7 +25,17 @@ export const cells =
 	},
 	{ //BASIC_DOOR
 		color: ti.map_colors.DOOR,
-		low: [ti.tile_ids.BASIC_BLANK], // FIXME
+		low: [ti.tile_ids.BASIC_FLOOR, ti.tile_ids.BASIC_DOOR],
+		high: []
+	},
+	{ //BASIC_UP
+		color: ti.map_colors.DOOR,
+		low: [ti.tile_ids.BASIC_FLOOR, ti.tile_ids.BASIC_UP],
+		high: []
+	},
+	{ //BASIC_DOWN
+		color: ti.map_colors.DOOR,
+		low: [ti.tile_ids.BASIC_FLOOR, ti.tile_ids.BASIC_DOWN],
 		high: []
 	},
 ];

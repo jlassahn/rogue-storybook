@@ -87,7 +87,7 @@ const map_colors = [
 	"rgb(0,0,0)", // UNKNOWN
 	"rgb(64,64,64)", // WALL
 	"rgb(192,192,192)", // FLOOR
-	"rgb(255,192,128)" // DOOR
+	"rgb(160,100,0)" // DOOR
 ];
 
 const ui_elements = {
@@ -316,14 +316,17 @@ function draw_game(gd)
 
 			const cell = gd.game.map_cells[x + MAP_DX*y];
 			const lt = cell.low_tiles();
-			const tile = lt[0];
 
 			const dstx = i*48 - gd.game.trim_x;
 			const dsty = j*48 - 16 - gd.game.trim_y;
 
-			const srcx = 48*tile;
-			const srcy = 64*0;
-			ctx.drawImage(tile_img, srcx, srcy, 48, 64, dstx, dsty, 48, 64);
+			for (var k=0; k<lt.length; k++)
+			{
+				const tile = lt[k];
+				const srcx = 48*tile;
+				const srcy = 64*0;
+				ctx.drawImage(tile_img, srcx, srcy, 48, 64, dstx, dsty, 48, 64);
+			}
 		}
 	}
 }

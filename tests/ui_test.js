@@ -231,5 +231,9 @@ function set_up_map(game_data)
 		const cell = new map.MapCell(cell_id, flags);
 		game_data.game.map_cells.push(cell);
 	}
+	game_data.game.map_cells[5 + 63*9].cell_id = tile_info.cells.BASIC_DOOR;
+	game_data.game.map_cells[9 + 63*5].cell_id = tile_info.cells.BASIC_DOOR;
+	game_data.game.map_cells[5 + 63*5].cell_id = tile_info.cells.BASIC_DOWN;
+	game_data.game.map_cells[31 + 63*31].cell_id = tile_info.cells.BASIC_UP;
 }
 
